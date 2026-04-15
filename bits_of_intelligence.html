@@ -15,20 +15,20 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sa
 .fs-btn{border:1px solid #3d3d60;border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;background:transparent;color:#aaa;margin-left:auto}
 .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px;gap:14px;background:#f5f4f0}
 .cat-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#888;font-weight:600}
-.card-wrap{width:100%;max-width:580px;perspective:1400px}
-.card{width:100%;height:540px;position:relative;transform-style:preserve-3d;transition:transform 0.6s ease;cursor:pointer}
-.card.flipped{transform:rotateY(180deg)}
-.face{position:absolute;inset:0;height:540px;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;border:1px solid #e0ddd5;overflow:hidden;background:#fff;display:flex;flex-direction:column}
-.face-back{transform:rotateY(180deg)}
+.card-wrap{width:100%;max-width:580px;-webkit-perspective:1400px;perspective:1400px}
+.card{width:100%;height:540px;position:relative;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;-webkit-transition:-webkit-transform 0.6s ease;transition:transform 0.6s ease;cursor:pointer}
+.card.flipped{-webkit-transform:rotateY(180deg);transform:rotateY(180deg)}
+.face{position:absolute;top:0;right:0;bottom:0;left:0;height:540px;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:18px;border:1px solid #e0ddd5;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.face-back{-webkit-transform:rotateY(180deg);transform:rotateY(180deg)}
 .img-wrap{width:100%;height:420px;flex-shrink:0;background:#111;position:relative;overflow:hidden}
-.img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;opacity:0;transition:opacity 0.4s}
+.img-wrap img{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;opacity:0;transition:opacity 0.4s}
 .img-wrap img.loaded{opacity:1}
 .img-wrap.contain img{object-fit:contain;object-position:center center}
-.loading-box{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#1a1a2e}
+.loading-box{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#1a1a2e}
 .spinner{width:36px;height:36px;border:3px solid #333;border-top-color:#aaa;border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-box span{color:#777;font-size:13px}
-.err-box{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#f5f4f0;padding:24px;text-align:center}
+.err-box{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#f5f4f0;padding:24px;text-align:center}
 .err-box p{color:#888;font-size:13px;line-height:1.6}
 .retry-btn{border:1px solid #bbb;border-radius:8px;padding:8px 20px;font-size:13px;cursor:pointer;background:#fff;color:#555}
 .card-footer{padding:12px 20px;border-top:1px solid #f0ede8;background:#fff;flex:1;display:flex;flex-direction:column;justify-content:center}
@@ -59,7 +59,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sa
     <button class="cat-btn active" onclick="switchCat(0)">Ocean Animals</button>
     <button class="cat-btn" onclick="switchCat(1)">CNS</button>
     <button class="cat-btn" onclick="switchCat(2)">Composers</button>
-    <button class="cat-btn" onclick="switchCat(3)">Artists</button>
+    <button class="cat-btn" onclick="switchCat(3)">European Countries</button>
     <button class="cat-btn" onclick="switchCat(4)">Paintings</button>
     <button class="cat-btn" onclick="switchCat(5)">World Leaders</button>
     <button class="fs-btn" onclick="goFS()">Full screen</button>
@@ -85,6 +85,8 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sa
 var catIdx=0,cardIdx=0,flipped=false,order=[];
 
 function wmUrl(fn,w){
+  if(fn.slice(-4).toLowerCase()==='.svg')
+    return 'https://commons.wikimedia.org/w/index.php?title=Special:FilePath/'+encodeURIComponent(fn)+'&width='+(w||600)+'&_t='+Date.now();
   return 'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/'+encodeURIComponent(fn)+'&width='+(w||600)+'&_t='+Date.now();
 }
 
@@ -218,37 +220,27 @@ var CATS=[
   {title:'Franz Liszt',sub:'1811-1886, Hungary',img:'Portrait_of_Franz_Liszt_by_Friedrich_von_Amerling.jpg',
    facts:['Greatest piano virtuoso who has ever lived','Invented the modern solo piano recital format','Born in Hungary in 1811 — a musical prodigy from childhood','The first celebrity musician — fans mobbed his concerts','Invented the Symphonic Poem as an entirely new musical form','Transcribed orchestral works brilliantly for solo piano','Became a Franciscan abbe later in his extraordinary life','Deeply influenced Wagner — and became his father-in-law','Taught piano masterclasses that shaped generations of pianists','His Hungarian Rhapsodies remain enduringly beloved today']}
 ]},
-{title:'Famous Artists',cards:[
-  // Miguel_Ángel,_por_Daniele_da_Volterra_(detalle).jpg — confirmed previously
-  {title:'Michelangelo',sub:'1475-1564, Italy',img:'Miguel_\u00c1ngel,_por_Daniele_da_Volterra_(detalle).jpg',
-   facts:['Painted the entire Sistine Chapel ceiling in 1508-1512','Sculpted the David and the incomparable Pieta','Was primarily a sculptor who was reluctant to paint','Spent 4 gruelling years on scaffolding painting the ceiling','Lived to 88 — an extraordinary age for his era','Designed the great dome of St Peters Basilica in Rome','Painted his own face into The Last Judgment fresco','Worked on major projects until the week before he died','Born in Caprese Tuscany in 1475','Often had fierce disagreements with his papal patrons']},
-  // Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project.jpg — confirmed
-  {title:'Vincent van Gogh',sub:'1853-1890, Netherlands',img:'Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project.jpg',
-   facts:['Painted over 900 works in just 10 remarkable years','Sold only one painting during his entire lifetime','Cut off part of his own ear during a mental breakdown','The Starry Night is his most iconic masterpiece','Suffered from severe mental illness throughout his life','Died at 37 from a gunshot wound','Profoundly shaped the entire course of Post-Impressionism','His devoted brother Theo supported him financially for years','Now among the most expensive artists in history','His letters to Theo are a priceless and moving historical record']},
-  // Pablo_picasso_1.jpg — confirmed from Wikidata
-  {title:'Pablo Picasso',sub:'1881-1973, Spain',img:'Pablo_picasso_1.jpg',
-   facts:['Co-founded the revolutionary Cubist movement','Painted Guernica — the greatest anti-war artwork ever made','Drew with professional skill by the age of 13','Lived and worked mainly in Paris, France','Created over 20,000 works across all media in his life','First living artist to have work exhibited in the Louvre','His full birth name contains 23 words','Changed his artistic style dramatically many times','Guernica now hangs permanently in the Reina Sofia Madrid','Lived and worked actively until the age of 91']},
-  // Frida_Kahlo,_by_Guillermo_Kahlo.jpg — confirmed previously
-  {title:'Frida Kahlo',sub:'1907-1954, Mexico',img:'Frida_Kahlo,_by_Guillermo_Kahlo.jpg',
-   facts:['Famous for deeply personal and vivid self-portraits','Survived a near-fatal bus accident at only 18 years old','Married the great muralist Diego Rivera twice','Deeply rooted in Mexican folk art and culture','A committed member of the Communist Party','Underwent more than 35 painful operations in her lifetime','Defied gender norms in both dress and art boldly','Her home La Casa Azul is now a museum in Mexico City','First Mexican artist with a painting acquired by the Louvre','A global icon of feminism, resilience, and personal strength']},
-  // Rembrandt_van_Rijn_-_Self-Portrait_-_Google_Art_Project.jpg — confirmed
-  {title:'Rembrandt van Rijn',sub:'1606-1669, Netherlands',img:'Rembrandt_van_Rijn_-_Self-Portrait_-_Google_Art_Project.jpg',
-   facts:['Absolute master of light and shadow — chiaroscuro','Made over 90 self-portraits throughout his long career','Painted The Night Watch in 1642 — his supreme masterpiece','Went bankrupt and tragically lost his house and collection','A towering figure of the Dutch Golden Age of painting','Used the thick impasto paint technique for rich texture','Made around 300 paintings, 300 etchings, and 2,000 drawings','Influenced virtually every Western painter who came after him','Died in poverty despite achieving enormous international fame','One of the greatest portrait painters in all of history']},
-  // Salvador_Dalí_1939.jpg — confirmed previously
-  {title:'Salvador Dali',sub:'1904-1989, Spain',img:'Salvador_Dal\u00ed_1939.jpg',
-   facts:['The supreme master and public face of Surrealism','Famous for The Persistence of Memory and its melting clocks','Had an extravagant personality and truly iconic moustache','Collaborated with Alfred Hitchcock on the film Spellbound','Born in Figueres, Catalonia, Spain in 1904','Built his own Theatre-Museum Dali in his home town','Was expelled from art school not once but twice','Kept a pet ocelot — a wild spotted South American cat','Married Gala — his lifelong muse, model, and manager','Created a world in paint where dreams became vivid reality']},
-  // Georgia_O'Keeffe_MET_DP245242.jpg — confirmed in Category:Georgia O'Keeffe
-  {title:"Georgia O'Keeffe",sub:'1887-1986, USA',img:"Georgia_O'Keeffe_MET_DP245242.jpg",
-   facts:['Pioneer and leading figure of American Modernism','Famous for her large-scale close-up flower paintings','Also celebrated for her stark New Mexico desert landscapes','Moved permanently to New Mexico at age 62','Lived to the remarkable and extraordinary age of 98','Married the pioneering photographer Alfred Stieglitz','Known as the Mother of American Modernism','Her work bridges abstraction and direct representation','Inspired generations of American women artists worldwide','Brooklyn Museum held her first major retrospective exhibition']},
-  // "The_School_of_Athens"_by_Raffaello_Sanzio_da_Urbino.jpg — confirmed in featured pictures category
-  {title:'Raphael',sub:'1483-1520, Italy',img:'"The_School_of_Athens"_by_Raffaello_Sanzio_da_Urbino.jpg',containImg:true,
-   facts:['One of three supreme masters of the High Renaissance','The School of Athens in the Vatican is his masterpiece','Died tragically on his own 37th birthday in 1520','Served as chief architect of St Peters Basilica in Rome','Painted many celebrated and beloved Madonna compositions','Worked for Pope Julius II and Pope Leo X in Rome','His figures became the Western ideal of human beauty','Moved from Florence to Rome to receive his greatest commissions','Was deeply influenced by both Leonardo and Michelangelo','His tomb is in the Pantheon — an extraordinary honour']},
-  // Mona_Lisa — confirmed
-  {title:'Leonardo da Vinci',sub:'1452-1519, Italy',img:'Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg',containImg:true,
-   facts:['Renaissance genius — painter, sculptor, architect, and scientist','Painted the Mona Lisa and The Last Supper','Designed flying machines 400 years before aviation','Filled over 13,000 pages with his remarkable notebooks','Left-handed and wrote entirely in mirror script','Born illegitimate in the village of Vinci, Tuscany','Secretly studied anatomy by dissecting human corpses','Often left major great projects unfinished','Considered by many the greatest painter who ever lived','Died in France under the patronage of King Francis I']},
-  // Claude_Monet_-_Water_Lilies_-_1906,_Ryerson.jpg — confirmed
-  {title:'Claude Monet',sub:'1840-1926, France',img:'Claude_Monet_-_Water_Lilies_-_1906,_Ryerson.jpg',containImg:true,
-   facts:['Father of the entire Impressionist movement in art','Painted the famous series of around 250 Water Lilies','Continued painting brilliantly while nearly blind from cataracts','Accidentally gave Impressionism its enduring name','Designed and built his beloved garden at Giverny France','Painted the same scene at many different times of day','His paintings now sell for hundreds of millions of dollars','Worked outdoors in all weathers — known as en plein air','Studied the ever-changing effect of natural light above all','Water Lilies displayed as wraparound oval panels in Paris']}
+{title:'European Countries',cards:[
+  {title:'France',sub:'Western Europe',img:'France_in_Europe_(-rivers_-mini_map).svg',containImg:true,
+   facts:['Largest country in the European Union by area','Home to the most visited monument on Earth — the Eiffel Tower','Has won the FIFA World Cup twice, in 1998 and 2018','Paris has been continuously inhabited for over 2,000 years','Produces over 1,200 distinct varieties of cheese','The French Revolution of 1789 transformed the modern world','France has the most time zones of any country — 12 in total','The Louvre in Paris is the most visited museum on the planet','French is spoken as an official language in 29 countries','Mont Blanc at 4,808 metres is the highest peak in the Alps']},
+  {title:'Germany',sub:'Central Europe',img:'Germany_in_Europe_(-rivers_-mini_map).svg',containImg:true,
+   facts:['Most populous country in the European Union with 84 million people','Berlin is the second largest city by area in the EU','Home to over 1,500 different varieties of beer','The Berlin Wall divided the country from 1961 to 1989','Germany has won the FIFA World Cup four times','The autobahn has sections with no official speed limit','Invented the printing press, aspirin, and the automobile','Third largest economy in the entire world by GDP','Has over 20,000 castles and castle ruins across the country','The Brothers Grimm collected their famous fairy tales here']},
+  {title:'Italy',sub:'Southern Europe',img:'Italy_in_Europe_(-rivers_-mini_map).svg',containImg:true,
+   facts:['Has more UNESCO World Heritage Sites than any other country','Shaped like a boot kicking into the Mediterranean Sea','Home to the smallest country on Earth — Vatican City','The Roman Empire at its peak ruled 70 million people','Italy has 14 active volcanoes including Mount Etna','Invented pizza, pasta, espresso, and the opera','Has won the FIFA World Cup four times','The Colosseum in Rome could hold up to 80,000 spectators','Leonardo da Vinci, Michelangelo, and Raphael were all Italian','Venice is built on 118 small islands connected by 400 bridges']},
+  {title:'Spain',sub:'Southwestern Europe',img:'Spain_in_Europe_(-rivers_-mini_map).svg',containImg:true,
+   facts:['Second largest country in the European Union by area','Home to the world-famous running of the bulls in Pamplona','Has won the FIFA World Cup once, in 2010 in South Africa','The Spanish Empire was once the largest empire on Earth','Madrid is the highest capital city in the European Union','Spain has more than 8,000 kilometres of beaches','Flamenco dance and guitar are iconic Spanish art forms','The Sagrada Familia in Barcelona has been under construction since 1882','Spain produces more olive oil than any other country on Earth','Home to the oldest restaurant in the world — Sobrino de Botin in Madrid']},
+  {title:'United Kingdom',sub:'Northwestern Europe',img:'United_Kingdom_in_Europe_(-rivers_-mini_map).svg',containImg:true,
+   facts:['Made up of England, Scotland, Wales, and Northern Ireland','Left the European Union in 2020 after the Brexit referendum','The British Empire was the largest empire in all of history','London is the most visited city in all of Europe','Invented football, rugby, cricket, and the World Wide Web','The monarch is still head of state in 15 countries worldwide','Shakespeare wrote 37 plays that are still performed today','Stonehenge was built over 5,000 years ago on Salisbury Plain','The UK has no written constitution — one of very few countries','Home to the world-famous Oxford and Cambridge universities']},
+  {title:'Norway',sub:'Northern Europe',img:'Norway_in_Europe_(-rivers_-mini_map).svg',containImg:true,
+   facts:['Has the longest coastline in Europe at over 25,000 kilometres','Consistently ranked among the happiest countries on Earth','The midnight sun means 24 hours of daylight in summer','Oslo is among the most expensive cities in the world to live in','Norway has more electric vehicles per capita than any nation','The Northern Lights are visible from much of the country','Norway is the leading oil and gas producer in Western Europe','Has the world largest sovereign wealth fund worth over 1 trillion dollars','Vikings from Norway settled Iceland, Greenland, and North America','The fjords carved by glaciers are among the most dramatic landscapes on Earth']},
+  {title:'Sweden',sub:'Northern Europe',img:'Sweden_in_Europe_(-rivers_-mini_map).svg',containImg:true,
+   facts:['Home to ABBA, IKEA, Spotify, and Minecraft','Has over 220,000 islands along its coastline','Alfred Nobel — inventor of dynamite — was Swedish','Stockholm is built across 14 islands where Lake Malaren meets the sea','Sweden has not been at war since 1814 — over 200 years of peace','Invented the safety match, the adjustable spanner, and the zipper','Has the highest proportion of women in parliament in Europe','Midsommar is one of the most celebrated holidays of the year','Has more McDonald\'s restaurants per capita than any European nation','ABBA won the Eurovision Song Contest for Sweden in 1974']},
+  {title:'Poland',sub:'Central Europe',img:'Poland_in_Europe_(-rivers_-mini_map).svg',containImg:true,
+   facts:['Ninth largest country in Europe by area','Warsaw was almost entirely destroyed in World War II and then rebuilt','Home to the largest medieval castle in the world — Malbork Castle','Copernicus — who proved the Earth orbits the Sun — was Polish','Marie Curie, winner of two Nobel Prizes, was born in Warsaw','The Solidarity movement helped bring down communism in Europe','Poland has the largest economy in Central and Eastern Europe','Bison roam freely in the ancient Bialowieza Forest on the Belarus border','Polish cuisine is famous for pierogi, bigos, and kielbasa sausage','Poland is the world largest producer of amber']},
+  {title:'Greece',sub:'Southern Europe',img:'Greece_in_Europe_(-rivers_-mini_map).svg',containImg:true,
+   facts:['Birthplace of democracy, philosophy, the Olympics, and theatre','Has over 6,000 islands, of which around 230 are inhabited','The Acropolis of Athens has stood for over 2,500 years','Ancient Greece gave the world geometry, medicine, and astronomy','Greece has more archaeological museums than any other country','Homer wrote the Iliad and the Odyssey around 700 BC','The Greek alphabet is the basis of Latin and Cyrillic scripts','Greece has the longest coastline in the Mediterranean Sea','Has been a member of the European Union since 1981','Ouzo, feta cheese, and olive oil are iconic Greek exports']},
+  {title:'Portugal',sub:'Southwestern Europe',img:'Portugal_in_Europe_(-rivers_-mini_map).svg',containImg:true,
+   facts:['Oldest country in Europe with borders unchanged since 1139','Vasco da Gama was the first European to sail directly to India','The Portuguese Empire was the longest-lived colonial empire in history','Fado music is a melancholy and deeply emotional Portuguese art form','Has 900 kilometres of stunning Atlantic Ocean coastline','Lisbon is the westernmost capital city in continental Europe','Produced explorer Ferdinand Magellan who circumnavigated the globe','Portuguese is spoken by over 250 million people worldwide','Porto wine and pasteis de nata custard tarts are world famous exports','Has the world oldest bookshop still in operation — Livraria Bertrand in Lisbon']}
 ]},
 {title:'Famous Paintings',cards:[
   // Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg — confirmed
@@ -258,13 +250,13 @@ var CATS=[
   {title:'The Starry Night',sub:'Vincent van Gogh, 1889',img:'Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg',containImg:true,
    facts:['Painted while van Gogh was a patient in an asylum','Shows the view from his asylum window at Saint-Remy','Now hangs in the Museum of Modern Art New York City','One of the most instantly recognised paintings ever made','Swirling turbulent brushstrokes express intense emotional power','The cypress tree in the foreground symbolises death','Van Gogh rarely signed his paintings on the front','He described it in detail in letters to his brother Theo','Painted entirely from memory and his own imagination','Inspired Don McLeans celebrated song Starry Starry Night']},
   // The_Last_Supper_by_Leonardo_da_Vinci.jpg — confirmed previously
-  {title:'The Last Supper',sub:'Leonardo da Vinci, 1495-1498',img:'The_Last_Supper_by_Leonardo_da_Vinci.jpg',containImg:true,
+  {title:'The Last Supper',sub:'Leonardo da Vinci, 1495-1498',img:'Leonardo_da_Vinci_(1452-1519)_-_The_Last_Supper_(1495-1498).jpg',containImg:true,
    facts:['Painted on a refectory wall in Milan, Italy','Shows Jesus and his 12 apostles at their final meal','Not a true fresco — painted on dry wall plaster','Has deteriorated significantly over 500 long years','Has been extensively restored numerous times in history','Each apostle shows a dramatically different reaction','Judas can be seen clutching his bag of silver coins','Made famous in popular fiction by The Da Vinci Code novel','The mural is over 20 feet wide and 15 feet tall','One of the most studied artworks in all of human history']},
   // Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg — confirmed
   {title:'The Birth of Venus',sub:'Sandro Botticelli, c.1484-1486',img:'Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg',containImg:true,
    facts:['Hangs in the Uffizi Gallery in Florence, Italy','Shows the goddess Venus rising fully-grown from the sea','Commissioned by the powerful Medici family of Florence','Inspired by ancient Roman classical Ovidian poetry','Venus was modelled on the beauty Simonetta Vespucci','First large-scale non-religious nude painting in centuries','Unusually for its time — painted on canvas not wood','Botticelli asked to be buried beneath a copy of this work','The defining Western icon of feminine beauty and grace','Has inspired countless artworks, parodies, and references since']},
   // PicassoGuernica.jpg — confirmed previously
-  {title:'Guernica',sub:'Pablo Picasso, 1937',img:'PicassoGuernica.jpg',containImg:true,
+  {title:'Guernica',sub:'Pablo Picasso, 1937',img:'Guernica_Gernikara.JPG',containImg:true,
    facts:['Painted in response to the Nazi bombing of Guernica Spain','Commissioned for the 1937 Paris World Fair exhibition','Painted entirely in black, white, and grey tones','Over 11 feet tall and 25 feet wide — monumental scale','A devastating anti-war masterpiece in Cubist style','Kept in MoMA New York for decades for its own protection','Now permanently housed in the Reina Sofia museum Madrid','Shows the suffering of innocent people and trapped animals','The bull and the screaming horse are its central symbols','One of the greatest political artworks ever created in history']},
   // "The_School_of_Athens"_by_Raffaello_Sanzio_da_Urbino.jpg — confirmed in featured pictures
   {title:'The School of Athens',sub:'Raphael, 1509-1511',img:'"The_School_of_Athens"_by_Raffaello_Sanzio_da_Urbino.jpg',containImg:true,
