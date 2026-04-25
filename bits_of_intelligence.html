@@ -49,7 +49,6 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sa
 .flip-btn{border:none;border-radius:10px;padding:10px 30px;font-size:14px;cursor:pointer;background:#1a1a2e;color:#fff;font-weight:700}
 .speak-btn{border:1px solid #ccc;border-radius:10px;padding:10px 18px;font-size:15px;cursor:pointer;background:#fff}
 .prog{font-size:12px;color:#aaa;letter-spacing:1px}
-.cns-wrap{width:100%;height:420px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#faf8f3;padding:20px}
 </style>
 </head>
 <body>
@@ -59,7 +58,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sa
     <button class="cat-btn active" onclick="switchCat(0)">Wonders</button>
     <button class="cat-btn" onclick="switchCat(1)">India</button>
     <button class="cat-btn" onclick="switchCat(2)">Cell Parts</button>
-    <button class="cat-btn" onclick="switchCat(3)">European Countries</button>
+    <button class="cat-btn" onclick="switchCat(3)">Fashion</button>
     <button class="cat-btn" onclick="switchCat(4)">Ivy League</button>
     <button class="cat-btn" onclick="switchCat(5)">Orchids</button>
     <button class="fs-btn" onclick="goFS()">Full screen</button>
@@ -106,31 +105,6 @@ function loadImg(wrap,fn,contain,w){
 }
 
 function doRetry(btn,ef,contain,w){loadImg(btn.parentElement.parentElement,decodeURIComponent(ef),!!contain,w);}
-
-// CNS anatomy — all filenames verified as real Wikimedia Commons files, matched to correct topic
-var CNS={
-  // Brain_human_sagittal_section.svg — confirmed file page (Yale Medical School)
-  // Shows full brain sagittal cross-section with all major structures labelled
-  brain:'Brain_human_sagittal_section.svg',
-  // Blausen_0102_Brain_overview.png — confirmed (Blausen Medical; cerebral cortex regions lateral view)
-  cerebrum:'Blausen_0101_Brain_LateralView.png',
-  // Gray706.png — confirmed in Gray's Anatomy plates of nervous system category (cerebellum)
-  cerebellum:'Sobo_1909_653.png',
-  // Blausen_0114_BrainstemAnatomy.png — confirmed in Category:Human mesencephalon
-  brainstem:'Blausen_0114_BrainstemAnatomy.png',
-  // Spinal_cord_diagram.png — confirmed previously
-  spinalcord:'Human_spinal_cord_svg.svg',
-  // Neuron_-_annotated.svg — confirmed previously
-  neuron:'Neuron_-_annotated.svg',
-  // Blausen_0101_Brain_LateralView.png — confirmed in Category:Brain lobes (shows lobes colour-coded)
-  frontal:'Lobes_of_the_brain_NL.svg',
-  // Gray739.png — confirmed in Gray's Anatomy plates category (hippocampus anatomy)
-  hippocampus:'Gray739.png',
-  // Gray_matter_and_white_matter.jpg — confirmed previously
-  cortex:'Cerebral_cortex,_side_view.svg',
-  // Human_brainstem-thalamus_posterior_view.JPG — confirmed file page (posterior view of thalamus)
-  thalamus:'Human_brainstem-thalamus_posterior_view.JPG'
-};
 
 // Every img: filename verified as a real Wikimedia Commons file before inclusion
 var CATS=[
@@ -200,27 +174,27 @@ var CATS=[
   {title:'The Cytoskeleton',sub:'Structural framework of the cell',img:'Animal cell structure en.svg',containImg:true,
    facts:['A dynamic network of protein filaments running through the entire cytoplasm of the cell','Made of three types of fibres — microfilaments intermediate filaments and microtubules','Microfilaments made of actin give the cell its shape and enable movement','Microtubules made of tubulin act as rails for transporting organelles and vesicles around the cell','Intermediate filaments provide mechanical strength and anchor the nucleus in place','The cytoskeleton is constantly being built and dismantled — it is never static','Forms the mitotic spindle that pulls chromosomes apart during cell division','White blood cells use the cytoskeleton to crawl toward sites of infection','Drugs like taxol stabilise microtubules and are used in cancer chemotherapy','Cilia and flagella — cell projections used for movement — are built from microtubule arrays']}
 ]},
-{title:'European Countries',cards:[
-  {title:'France',sub:'Western Europe',img:'France_in_Europe_(-rivers_-mini_map).svg',containImg:true,
-   facts:['Largest country in the European Union by area','Home to the most visited monument on Earth — the Eiffel Tower','Has won the FIFA World Cup twice, in 1998 and 2018','Paris has been continuously inhabited for over 2,000 years','Produces over 1,200 distinct varieties of cheese','The French Revolution of 1789 transformed the modern world','France has the most time zones of any country — 12 in total','The Louvre in Paris is the most visited museum on the planet','French is spoken as an official language in 29 countries','Mont Blanc at 4,808 metres is the highest peak in the Alps']},
-  {title:'Germany',sub:'Central Europe',img:'Germany_in_Europe_(-rivers_-mini_map).svg',containImg:true,
-   facts:['Most populous country in the European Union with 84 million people','Berlin is the second largest city by area in the EU','Home to over 1,500 different varieties of beer','The Berlin Wall divided the country from 1961 to 1989','Germany has won the FIFA World Cup four times','The autobahn has sections with no official speed limit','Invented the printing press, aspirin, and the automobile','Third largest economy in the entire world by GDP','Has over 20,000 castles and castle ruins across the country','The Brothers Grimm collected their famous fairy tales here']},
-  {title:'Italy',sub:'Southern Europe',img:'Italy_in_Europe_(-rivers_-mini_map).svg',containImg:true,
-   facts:['Has more UNESCO World Heritage Sites than any other country','Shaped like a boot kicking into the Mediterranean Sea','Home to the smallest country on Earth — Vatican City','The Roman Empire at its peak ruled 70 million people','Italy has 14 active volcanoes including Mount Etna','Invented pizza, pasta, espresso, and the opera','Has won the FIFA World Cup four times','The Colosseum in Rome could hold up to 80,000 spectators','Leonardo da Vinci, Michelangelo, and Raphael were all Italian','Venice is built on 118 small islands connected by 400 bridges']},
-  {title:'Spain',sub:'Southwestern Europe',img:'Spain_in_Europe_(-rivers_-mini_map).svg',containImg:true,
-   facts:['Second largest country in the European Union by area','Home to the world-famous running of the bulls in Pamplona','Has won the FIFA World Cup once, in 2010 in South Africa','The Spanish Empire was once the largest empire on Earth','Madrid is the highest capital city in the European Union','Spain has more than 8,000 kilometres of beaches','Flamenco dance and guitar are iconic Spanish art forms','The Sagrada Familia in Barcelona has been under construction since 1882','Spain produces more olive oil than any other country on Earth','Home to the oldest restaurant in the world — Sobrino de Botin in Madrid']},
-  {title:'United Kingdom',sub:'Northwestern Europe',img:'United_Kingdom_in_Europe_(-rivers_-mini_map).svg',containImg:true,
-   facts:['Made up of England, Scotland, Wales, and Northern Ireland','Left the European Union in 2020 after the Brexit referendum','The British Empire was the largest empire in all of history','London is the most visited city in all of Europe','Invented football, rugby, cricket, and the World Wide Web','The monarch is still head of state in 15 countries worldwide','Shakespeare wrote 37 plays that are still performed today','Stonehenge was built over 5,000 years ago on Salisbury Plain','The UK has no written constitution — one of very few countries','Home to the world-famous Oxford and Cambridge universities']},
-  {title:'Norway',sub:'Northern Europe',img:'Norway_in_Europe_(-rivers_-mini_map).svg',containImg:true,
-   facts:['Has the longest coastline in Europe at over 25,000 kilometres','Consistently ranked among the happiest countries on Earth','The midnight sun means 24 hours of daylight in summer','Oslo is among the most expensive cities in the world to live in','Norway has more electric vehicles per capita than any nation','The Northern Lights are visible from much of the country','Norway is the leading oil and gas producer in Western Europe','Has the world largest sovereign wealth fund worth over 1 trillion dollars','Vikings from Norway settled Iceland, Greenland, and North America','The fjords carved by glaciers are among the most dramatic landscapes on Earth']},
-  {title:'Sweden',sub:'Northern Europe',img:'Sweden_in_Europe_(-rivers_-mini_map).svg',containImg:true,
-   facts:['Home to ABBA, IKEA, Spotify, and Minecraft','Has over 220,000 islands along its coastline','Alfred Nobel — inventor of dynamite — was Swedish','Stockholm is built across 14 islands where Lake Malaren meets the sea','Sweden has not been at war since 1814 — over 200 years of peace','Invented the safety match, the adjustable spanner, and the zipper','Has the highest proportion of women in parliament in Europe','Midsommar is one of the most celebrated holidays of the year','Has more McDonald\'s restaurants per capita than any European nation','ABBA won the Eurovision Song Contest for Sweden in 1974']},
-  {title:'Poland',sub:'Central Europe',img:'Poland_in_Europe_(-rivers_-mini_map).svg',containImg:true,
-   facts:['Ninth largest country in Europe by area','Warsaw was almost entirely destroyed in World War II and then rebuilt','Home to the largest medieval castle in the world — Malbork Castle','Copernicus — who proved the Earth orbits the Sun — was Polish','Marie Curie, winner of two Nobel Prizes, was born in Warsaw','The Solidarity movement helped bring down communism in Europe','Poland has the largest economy in Central and Eastern Europe','Bison roam freely in the ancient Bialowieza Forest on the Belarus border','Polish cuisine is famous for pierogi, bigos, and kielbasa sausage','Poland is the world largest producer of amber']},
-  {title:'Greece',sub:'Southern Europe',img:'Greece_in_Europe_(-rivers_-mini_map).svg',containImg:true,
-   facts:['Birthplace of democracy, philosophy, the Olympics, and theatre','Has over 6,000 islands, of which around 230 are inhabited','The Acropolis of Athens has stood for over 2,500 years','Ancient Greece gave the world geometry, medicine, and astronomy','Greece has more archaeological museums than any other country','Homer wrote the Iliad and the Odyssey around 700 BC','The Greek alphabet is the basis of Latin and Cyrillic scripts','Greece has the longest coastline in the Mediterranean Sea','Has been a member of the European Union since 1981','Ouzo, feta cheese, and olive oil are iconic Greek exports']},
-  {title:'Portugal',sub:'Southwestern Europe',img:'Portugal_in_Europe_(-rivers_-mini_map).svg',containImg:true,
-   facts:['Oldest country in Europe with borders unchanged since 1139','Vasco da Gama was the first European to sail directly to India','The Portuguese Empire was the longest-lived colonial empire in history','Fado music is a melancholy and deeply emotional Portuguese art form','Has 900 kilometres of stunning Atlantic Ocean coastline','Lisbon is the westernmost capital city in continental Europe','Produced explorer Ferdinand Magellan who circumnavigated the globe','Portuguese is spoken by over 250 million people worldwide','Porto wine and pasteis de nata custard tarts are world famous exports','Has the world oldest bookshop still in operation — Livraria Bertrand in Lisbon']}
+{title:'20th Century Fashion Trends',cards:[
+  {title:'Flapper Dress',sub:'The Roaring Twenties',img:'Flapper dress at plaza theatre.jpg',containImg:true,
+   facts:['A straight loose dress with a dropped waist and knee-length hem','Worn by young women in the 1920s known as flappers','Broke sharply with the corseted long gowns of the Victorian era','Often decorated with beads sequins and fringe for dancing','Popular at jazz clubs and speakeasies during American Prohibition','Complemented by bobbed hairstyles and cloche hats','Symbolised the new independence of women in the 1920s','Designers like Coco Chanel and Jeanne Lanvin pioneered the style','Made mass-produced clothing fashionable among young women','Became iconic through the writings of F. Scott Fitzgerald']},
+  {title:'Little Black Dress',sub:'Coco Chanel, 1926',img:'Black dress by Coco Chanel.jpg',containImg:true,
+   facts:['Introduced by French designer Coco Chanel in Vogue magazine in 1926','Vogue predicted it would become a uniform for women of taste','Designed to be simple versatile and accessible to women of any means','Before this black had been reserved almost exclusively for mourning','Chanel transformed black into a colour of sophistication and elegance','Became a staple of every womans wardrobe in the 20th century','Famously worn by Audrey Hepburn in Breakfast at Tiffanys in 1961','Referred to in the fashion world simply as the LBD','Designed to be long-lasting rather than to follow seasonal trends','One of the most enduring fashion innovations of the last 100 years']},
+  {title:'Chanel Suit',sub:'Classic tweed — Chanel',img:'1965 Chanel suit and silk blouse.jpg',containImg:true,
+   facts:['A womens suit of knitted or woven tweed designed by Coco Chanel','Consists of a cardigan-style jacket and matching A-line skirt','Jacket has no collar and four patch pockets trimmed with braid','First introduced by Chanel in 1923 and refined throughout the century','Made from soft tweed rather than stiff traditional tailoring fabrics','Designed to be comfortable and practical for the modern working woman','Famously worn by Jackie Kennedy during the 1960s in many variants','Each suit contains a small gold chain sewn into the hem for weight','A genuine Chanel suit requires over 100 hours of hand stitching','Continues to be a signature of the Chanel fashion house today']},
+  {title:'Zoot Suit',sub:'1940s American street style',img:'Zoot Suiters On Parade.jpg',
+   facts:['A mens suit with very wide high-waisted trousers tapering at the ankle','Topped with a long loose jacket featuring padded shoulders and wide lapels','Popular in African American Italian American and Mexican American communities','Associated with the jazz and swing dance scene of the late 1930s and 1940s','Used so much fabric it was briefly outlawed in the US during wartime rationing','Sparked the 1943 Zoot Suit Riots in Los Angeles','Worn with a long key chain a wide-brimmed hat and two-toned shoes','Symbol of cultural identity and rebellion against mainstream fashion','Immortalised in the 1981 play Zoot Suit by Luis Valdez','Considered one of the first fashion statements of American youth culture']},
+  {title:'Poodle Skirt',sub:'1950s American teen fashion',img:'Girl wearing poodle skirt.jpg',containImg:true,
+   facts:['A wide swing skirt made of felt decorated with an appliqued poodle','Invented in 1947 by designer Juli Lynne Charlot','Originally felt was chosen because it required no sewing and no hem','Became the uniform of American teenage girls in the 1950s','Typically worn with saddle shoes bobby socks and a tight sweater','Other appliqued motifs included flamingos musical notes and phone numbers','Symbolised the new affluence and teenage culture of post-war America','Popular for sock hops and drive-in dates','Often worn with a stiff petticoat to make the skirt flare dramatically','Became iconic of the era through films like Grease released in 1978']},
+  {title:'Miniskirt',sub:'The Swinging Sixties',img:'Twirling model in miniskirt and tights at Mary Quant fashion show, Utrecht, 24 March 1969 crop.jpg',containImg:true,
+   facts:['A skirt with a hemline well above the knee typically 10 to 20 cm up','Popularised by British designer Mary Quant in London in the mid 1960s','Named after Quants favourite car the Mini Cooper','French designer Andre Courreges also claimed credit for its invention','Symbolised the womens liberation movement and youth rebellion','Often worn with coloured tights and knee-high go-go boots','Initially caused controversy being banned in some schools and workplaces','Model Twiggy became its most famous ambassador worldwide','Paved the way for increasingly revolutionary fashion throughout the decade','Remains a staple of womenswear over 60 years after its introduction']},
+  {title:'Bell-Bottoms',sub:'1970s flared trousers',img:'Bell bottoms.jpg',
+   facts:['Trousers cut tight at the thigh then flared dramatically from the knee down','Originally worn by sailors in the 19th century for practical reasons','Adopted by hippies in the late 1960s as anti-establishment fashion','Became mainstream fashion throughout the 1970s for both sexes','Often made from denim corduroy or printed psychedelic fabrics','Paired with platform shoes to dramatic visual effect','Associated with the disco era and artists like Sonny and Cher','The wider the flare the more fashionable the trouser was considered','Fell out of favour in the 1980s but have returned in multiple revivals','Known internationally as flares loons or elephant trousers']},
+  {title:'Platform Shoes',sub:'Disco-era footwear',img:'Platform shoes worn by Mae West, 1950s AD, wood, metallic leather - Textile Museum, George Washington University - DSC09965.JPG',
+   facts:['Shoes with a thick sole under the entire foot often several inches tall','Have appeared in many cultures going back to ancient Greek theatre','The Venetian chopine of the 16th century could be up to 50 cm tall','Actress Mae West wore them throughout her career to appear taller','Made a spectacular comeback in the 1970s disco and glam-rock eras','Worn by Elton John David Bowie and members of KISS in performance','Often paired with bell-bottoms to elongate the leg line','Returned to high fashion in the 1990s with the Spice Girls','Luxury designer Vivienne Westwood caused a famous 1993 catwalk tumble with them','Remain a recurring trend in modern womens footwear']},
+  {title:'Power Suit',sub:'1980s shoulder pads',img:'Justine bateman 9-20-1987.jpg',containImg:true,
+   facts:['A tailored womens suit with exaggerated padded shoulders and a cinched waist','Emerged as corporate attire for professional women in the 1980s','Symbolised the rise of women in executive and business roles','Inspired by mens suits but shaped to emphasise a strong silhouette','Made famous by television shows like Dynasty and Dallas','Often paired with court shoes and large statement jewellery','Designers like Giorgio Armani and Thierry Mugler led the trend','Inspired the phrase power dressing to describe the look','Shoulder pads sometimes added as much as 4 to 5 cm of breadth','Faded in the 1990s but returned in modified form in the 2010s']},
+  {title:'Grunge Fashion',sub:'1990s anti-fashion',img:'Customised cut-off denim shorts with peace symbols and slogans, American, 1990s.jpg',
+   facts:['A deliberately unkempt style that emerged from the Seattle music scene','Popularised by bands like Nirvana Pearl Jam and Soundgarden','Features flannel shirts ripped jeans combat boots and band t-shirts','A direct rejection of the polish and excess of 1980s fashion','Often involved second-hand clothing from thrift stores and charity shops','Designer Marc Jacobs brought it to the catwalk in 1992 for Perry Ellis','The Perry Ellis grunge collection was controversial and got Jacobs fired','Popularised doc marten boots and layered clothing for both sexes','Drew on earlier punk and skateboarding subcultures','Continues to influence fashion decades after its initial emergence']}
 ]},
 {title:'Ivy League Colleges',cards:[
   {title:'Harvard University',sub:'Cambridge, MA — Crimson',img:'John Harvard statue at Harvard University.jpg',
@@ -275,19 +249,8 @@ function render(){
   var back=document.getElementById('back');
   front.innerHTML='';back.innerHTML='';
 
-  if(card.diagram){
-    var cw=document.createElement('div');cw.className='cns-wrap';front.appendChild(cw);
-    var ci=document.createElement('img');ci.alt=card.title;
-    ci.style.cssText='max-width:100%;max-height:380px;object-fit:contain;display:block;opacity:0;transition:opacity 0.4s';
-    var cnsFn=CNS[card.diagram]||CNS.brain;
-    cw.innerHTML='<div class="loading-box" style="background:#faf8f3"><div class="spinner" style="border-color:#ddd;border-top-color:#777"></div><span style="color:#888;font-size:13px">Loading...</span></div>';
-    ci.onload=function(){cw.innerHTML='';ci.style.opacity='1';cw.appendChild(ci);};
-    ci.onerror=function(){cw.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:240px;color:#aaa;font-size:14px">'+card.title+'</div>';};
-    ci.src=wmUrl(cnsFn,600);
-  } else {
-    var iw=document.createElement('div');iw.className='img-wrap';front.appendChild(iw);
-    loadImg(iw,card.img,!!card.containImg);
-  }
+  var iw=document.createElement('div');iw.className='img-wrap';front.appendChild(iw);
+  loadImg(iw,card.img,!!card.containImg);
 
   var ft=document.createElement('div');ft.className='card-footer';
   ft.innerHTML='<div class="card-title">'+card.title+'</div>'
